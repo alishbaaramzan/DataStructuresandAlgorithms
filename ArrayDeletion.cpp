@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-
+ // structure for an array
 struct myArray{
     int total;
     int used;
