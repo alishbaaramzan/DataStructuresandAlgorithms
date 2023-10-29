@@ -4,11 +4,15 @@ using namespace std;
 class Node{
     public:
         char data;
-        char prec;
         Node *next;
 
 };
-
+int prec(char c){
+    if(c == '^') return 3;
+    else if (c =='*' || c == '/') return 2;
+    else if (c == '+' || c == '-') return 1;
+    else return 0;
+}
 class Stack{
     Node *top;
     public:
@@ -26,11 +30,10 @@ class Stack{
         else return false;
     }
 
-    void push(char val, int p){
+    void push(char val){
         if(!isFull()){
             Node *ptr = new Node();
             ptr->data = val;
-            ptr->prec = p;
             ptr->next = top;
             top = ptr;
         }
@@ -49,7 +52,7 @@ class Stack{
     void stackDisplay(){
         Node *ptr = top;
         while(ptr!=NULL){
-            std :: cout << ptr->data << " " << ptr->prec << endl;
+            std :: cout << ptr->data << endl;
             ptr = ptr->next;
         }
         std :: cout << endl;
@@ -58,45 +61,31 @@ class Stack{
     string infixToPostfix(string arr){
         int i = 0;
         string postfix = "";
-        while(arr[i]!='\0'){
-            if(arr[i]=='+' || arr[i]=='-'){
-                if(top==NULL || top->prec <1){
-                    push(arr[i],1);
-                    i++;
-                }
-                else{
-                    char temp = pop();
-                    postfix+=temp;
-                }  
+        while(arr[i] != '\0'){
+            if((arr[i] >='a' && arr[i] <='z') || (arr[i] >='a' && arr[i] <='z') || (arr[i] >='0' && arr[i] <='9')){
+                postfix += arr[i];
             }
-            if(arr[i]=='*' || arr[i]=='/'){
-                if(top==NULL || top->prec < 2){
-                    push(arr[i],2);
-                    i++;
-                }
-                else{
-                    char temp = pop();
-                    postfix+=temp;
-                }
+            else if(arr[i]=='(' || arr[i]=='{' || arr[i] == '[')
+                push(arr[i]);
+            else if (arr[i]==')' || arr[i]=='}' || arr[i] == ']'){
+                while(top->data != '(' && top->data != '{' && top->data != '[')
+                    postfix += pop();
+                pop();
             }
             else{
-                postfix += arr[i];
-                i++;
+                while(prec(arr[i]) <= prec(top->data))
+                    postfix += pop();
+                push(arr[i]);
             }
-        }
-        while(top!=NULL){
-            char temp = pop();
-            postfix += temp;
+            i++;
         }
         return postfix;
     }
-    ~Stack(){
-        delete top;
-    }
+    
 };
 int main(){
     Stack *s = new Stack();
-    string infix = "p-q-r/a";
+    string infix = "(p-q-r/a+b)";
     string postfix = s->infixToPostfix(infix);
     cout << "Infix expression is: " << infix << endl;
     cout << "Postfix expression is: " << postfix << endl;
