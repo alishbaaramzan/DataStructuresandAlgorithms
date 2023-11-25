@@ -37,7 +37,7 @@ class Stack{
             ptr->next = top;
             top = ptr;
         }
-        else std :: cout << "Stack overflow" << endl;
+        else cout << "Stack overflow" << endl;
     }
 
     char pop(){
@@ -46,36 +46,40 @@ class Stack{
             top = top->next;
             return val;
         }
-        else std :: cout << "Stack underflow" << endl;
+        else cout << "Stack underflow" << endl;
     }
 
     void stackDisplay(){
         Node *ptr = top;
         while(ptr!=NULL){
-            std :: cout << ptr->data << endl;
+            cout << ptr->data << endl;
             ptr = ptr->next;
         }
-        std :: cout << endl;
+        cout << endl;
     }
     // function for converting infix to postfix
     string infixToPostfix(string arr){
         int i = 0;
         string postfix = "";
         while(arr[i] != '\0'){
+            // if it is a digit or a letter concatenate to postfix expression
             if((arr[i] >='a' && arr[i] <='z') || (arr[i] >='a' && arr[i] <='z') || (arr[i] >='0' && arr[i] <='9')){
                 postfix += arr[i];
             }
+            // else if it is an opening bracket, push it to stack
             else if(arr[i]=='(' || arr[i]=='{' || arr[i] == '[')
                 push(arr[i]);
+            // else if it closing bracket, keep popping and adding to postfix until opening bracket is met
             else if (arr[i]==')' || arr[i]=='}' || arr[i] == ']'){
                 while(top->data != '(' && top->data != '{' && top->data != '[')
                     postfix += pop();
-                pop();
+                pop(); // pop the opening bracket as well
             }
             else{
+                // while the operator doesn't have greater precedence than top charachter, keep popping and adding to postfix
                 while(prec(arr[i]) <= prec(top->data))
                     postfix += pop();
-                push(arr[i]);
+                push(arr[i]); // push to stack
             }
             i++;
         }

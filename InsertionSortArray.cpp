@@ -11,6 +11,7 @@ void insertionSort(int arr[], int n){
                 break;
             arr[j+1] = arr[j];
         }
+        // adding the ith value at it's correct position
         arr[j+1] = curr;
     }
 }
@@ -19,7 +20,7 @@ int main(){
     int n = sizeof(arr)/sizeof(arr[0]);
     insertionSort(arr,n);
 
-    // displaying the array after the bubble sort
+    // displaying the array after the insertion sort
     for(int i = 0; i < n; i++){
         cout << arr[i] <<  " ";
     }

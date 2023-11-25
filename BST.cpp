@@ -29,6 +29,19 @@ class BST{
             }
             return succ;
         }
+        // printing the tree in ascending order
+        void inorderTraversal(Node* node){
+            if(node == NULL)
+                return;
+            else{
+                inorderTraversal(node->left);
+                cout << node->data << " ";
+                inorderTraversal(node->right);
+            }
+        }
+        void printInorder(){
+            inorderTraversal(root);
+        }
         // function to insert a value in BST
         void insert(int val){
             root = insertRecursion(root,val);
@@ -116,12 +129,16 @@ int main(){
     // checking if the values have been inserted correct
     if(binarytree->search(40)){
         cout << "Yes the values have been correctly inserted" << endl;
+        binarytree->printInorder();
+        cout << endl;
     }
 
     binarytree->deleteValue(50);
     // checking if the value has been deleted correctly
     if(!binarytree->search(50)){
         cout << "Yes the values have been correctly deleted" << endl;
+        binarytree->printInorder();
+        cout << endl;
     }
     delete binarytree;
     return 0;
