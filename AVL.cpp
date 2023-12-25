@@ -168,15 +168,15 @@ class AVL{
         int bf = balance(r);
 
         // catering all six cases
-        if(bf==2 && balance(r->left) >=0)
+        if(bf>=2 && balance(r->left) >=0)
             return rightrotate(r);
-        else if(bf==2 && balance(r->left)== -1){
+        else if(bf>=2 && balance(r->left)<= -1){
             r->left = leftrotate(r->left);
             return rightrotate(r);
         }
-        else if(bf==-2 && balance(r->right)<=0)
+        else if(bf<=-2 && balance(r->right)<=0)
             return leftrotate(r);
-        else if(bf==-2 && balance(r->right) == 1){
+        else if(bf<=-2 && balance(r->right) >= 1){
             r->right = rightrotate(r->right);
             return leftrotate(r);
         }
